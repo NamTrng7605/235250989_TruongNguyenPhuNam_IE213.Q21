@@ -110,5 +110,3 @@ Các phần chính em đã thực hiện và hiểu rõ bao gồm:
 - Kết nối thành công ứng dụng backend với cơ sở dữ liệu đám mây **MongoDB Atlas**.
 - Tạo và kiểm thử API trả về dữ liệu định dạng JSON bằng công cụ **Postman**.
 - Sử dụng công cụ AI để hỗ trợ tổng hợp và tạo file `README.md` báo cáo tự động, thẩm mỹ dựa trên format chuẩn.
-
-**=> Tổng kết:** Em đã nắm vững được luồng xử lý một Request đi từ Client vào hệ thống Backend, cách Backend truy xuất cơ sở dữ liệu và trả Response về lại cho người dùng.
