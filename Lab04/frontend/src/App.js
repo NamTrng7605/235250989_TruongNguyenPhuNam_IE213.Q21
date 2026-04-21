@@ -4,6 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+import AddReview from './components/add-review';
+import MoviesList from './components/movies-list';
+import Movie from './components/movie';
+import Login from './components/login';
+
 function App() {
   const [user, setUser] = React.useState(null);
 
@@ -18,7 +23,7 @@ function App() {
           <Nav.Link as={Link} to={"/movies"}>Movies</Nav.Link>
           <Nav.Link>
             {user ? (
-              <a onClick={logout} href="#">Log out User</a>
+              <a onClick={logout} href="#">Logout User</a>
             ) : (
               <Link to={"/login"}>Login</Link>
             )}
@@ -26,27 +31,29 @@ function App() {
         </Nav>
       </Navbar>
 
-      <Switch>
-  <Route exact path={["/", "/movies"]} component={MoviesList} />
-  <Route 
-    path="/movies/:id/review" 
-    render={(props) => (
-      <AddReview {...props} user={user} />
-    )} 
-  />
-  <Route 
-    path="/movies/:id/" 
-    render={(props) => (
-      <Movie {...props} user={user} />
-    )} 
-  />
-  <Route 
-    path="/login" 
-    render={(props) => (
-      <Login {...props} login={login} />
-    )} 
-  />
-</Switch>
+        <Switch>
+        <Route exact path={["/", "/movies"]} component={MoviesList} />
+        <Route 
+          path="/movies/:id/review" 
+          render={(props) => (
+            <AddReview {...props} user={user} />
+          )} 
+        />
+        <Route 
+          path="/movies/:id/" 
+          render={(props) => (
+            <Movie {...props} user={user} />
+          )} 
+        />
+        <Route 
+          path="/login" 
+          render={(props) => (
+            <Login {...props} login={login} />
+          )} 
+        />
+      </Switch>
     </div>
   );
 }
+
+export default App;
