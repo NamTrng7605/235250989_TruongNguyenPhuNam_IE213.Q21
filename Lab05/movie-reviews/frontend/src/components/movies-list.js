@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MovieDataService from '../services/movies';
 import { Link } from 'react-router-dom';
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -9,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 
 const MoviesList = props => {
+
   const [movies, setMovies] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchRating, setSearchRating] = useState("");
@@ -19,6 +21,7 @@ const MoviesList = props => {
     retrieveRatings();
   }, []);
 
+  // Lấy danh sách movie
   const retrieveMovies = () => {
     MovieDataService.getAll()
       .then(response => {
@@ -30,6 +33,7 @@ const MoviesList = props => {
       });
   };
 
+  // Lấy danh sách rating
   const retrieveRatings = () => {
     MovieDataService.getRatings()
       .then(response => {
@@ -41,39 +45,90 @@ const MoviesList = props => {
       });
   };
 
-  // ... (các import và hàm khác)
-
+  // Input title
   const onChangeSearchTitle = e => {
     const searchTitle = e.target.value;
     setSearchTitle(searchTitle);
   };
 
+  // Input rating
   const onChangeSearchRating = e => {
     const searchRating = e.target.value;
     setSearchRating(searchRating);
   };
 
+  // Search theo title
+  const findByTitle = () => {
+    MovieDataService.find(searchTitle, "title")
+      .then(response => {
+        console.log(response.data);
+        setMovies(response.data.movies);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  // Search theo rating
+  const findByRating = () => {
+
+    if (searchRating === "All Ratings") {
+      retrieveMovies();
+    }
+    else {
+      MovieDataService.find(searchRating, "rated")
+        .then(response => {
+          console.log(response.data);
+          setMovies(response.data.movies);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  };
+
   return (
-    <div className="App">
-      {/* 2.3 Tạo 2 search form */}
-      <Form className="mb-4">
-        <Row>
-          <Col>
+
+    <Container className="mt-4">
+
+      {/* Search Form */}
+      <Form className="mb-5">
+
+        <Row className="g-3">
+
+          {/* Search Title */}
+          <Col md={6}>
             <Form.Group>
+
               <Form.Control
                 type="text"
                 placeholder="Search by title"
                 value={searchTitle}
                 onChange={onChangeSearchTitle}
               />
+
             </Form.Group>
-            <Button variant="primary" type="button" onClick={findByTitle}>
+
+            <Button
+              className="mt-2"
+              variant="primary"
+              type="button"
+              onClick={findByTitle}
+            >
               Search
             </Button>
           </Col>
-          <Col>
+
+          {/* Search Rating */}
+          <Col md={6}>
+
             <Form.Group>
-              <Form.Control as="select" onChange={onChangeSearchRating}>
+
+              <Form.Select
+                value={searchRating}
+                onChange={onChangeSearchRating}
+              >
+
                 {ratings.map((rating, index) => {
                   return (
                     <option value={rating} key={index}>
@@ -81,36 +136,82 @@ const MoviesList = props => {
                     </option>
                   );
                 })}
-              </Form.Control>
+
+              </Form.Select>
+
             </Form.Group>
-            <Button variant="primary" type="button" onClick={findByRating}>
+
+            <Button
+              className="mt-2"
+              variant="primary"
+              type="button"
+              onClick={findByRating}
+            >
               Search
             </Button>
+
           </Col>
+
         </Row>
+
       </Form>
 
-      {/* 2.4 Hiển thị các movie bằng <Card> */}
-      <Row>
+      {/* Movie List */}
+      <Row className="g-4">
+
         {movies.map((movie) => {
+
           return (
-            <Col key={movie._id}>
-              <Card style={{ width: '18rem' }}>
-                <Card.Img src={movie.poster + "/100px180"} />
-                <Card.Body>
-                  <Card.Title>{movie.title}</Card.Title>
+
+            <Col lg={4} md={6} sm={12} key={movie._id}>
+
+              <Card className="h-100 shadow-sm">
+
+                <Card.Img
+                  variant="top"
+                  src={movie.poster + "/300px400"}
+                  style={{
+                    height: "450px",
+                    objectFit: "cover"
+                  }}
+                />
+
+                <Card.Body className="d-flex flex-column">
+
+                  <Card.Title>
+                    {movie.title}
+                  </Card.Title>
+
                   <Card.Text>
-                    Rating: {movie.rated}
+                    <strong>Rating:</strong> {movie.rated}
                   </Card.Text>
-                  <Card.Text>{movie.plot}</Card.Text>
-                  <Link to={"/movies/" + movie._id}>View Reviews</Link>
+
+                  <Card.Text>
+                    {movie.plot}
+                  </Card.Text>
+
+                  <div className="mt-auto">
+
+                    <Link to={"/movies/" + movie._id}>
+                      <Button variant="outline-primary">
+                        View Reviews
+                      </Button>
+                    </Link>
+
+                  </div>
+
                 </Card.Body>
+
               </Card>
+
             </Col>
+
           );
         })}
+
       </Row>
-    </div>
+
+    </Container>
   );
 };
 
