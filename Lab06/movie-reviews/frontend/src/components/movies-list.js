@@ -22,8 +22,7 @@ const MoviesList = props => {
 
   useEffect(() => { 
     setCurrentPage(0); }, 
-    [currentSearchMode]
-  );
+    [currentSearchMode]);
 
   useEffect(() => { 
     retrieveNextPage(); }, 
