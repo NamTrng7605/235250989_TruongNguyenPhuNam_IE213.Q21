@@ -26,28 +26,15 @@ const Login = props => {
             <Form>
                 <Form.Group>
                     <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter username"
-                        value={name}
-                        onChange={onChangeName}
-                    />
+                    <Form.Control type="text" placeholder="Enter username" value={name} onChange={onChangeName} />
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>ID</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter id"
-                        value={id}
-                        onChange={onChangeId}
-                    />
+                    <Form.Control type="text" placeholder="Enter id" value={id} onChange={onChangeId} />
                 </Form.Group>
-                <Button variant="primary" onClick={login}>
-                    Submit
-                </Button>
+                <Button variant="primary" onClick={login}>Submit</Button>
             </Form>
         </div>
     );
 }
-
 export default Login;

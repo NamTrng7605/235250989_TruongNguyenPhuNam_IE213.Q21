@@ -21,13 +21,12 @@ const MoviesList = props => {
   const [currentSearchMode, setCurrentSearchMode] = useState("");
 
   useEffect(() => { 
-    setCurrentPage(0); }, 
-    [currentSearchMode]);
+    setCurrentPage(0); 
+  }, [currentSearchMode]);
 
   useEffect(() => { 
     retrieveNextPage(); }, 
-    [currentPage]
-  );
+    [currentPage]);
 
   const retrieveNextPage = () => {
     if (currentSearchMode === "findByTitle") { findByTitle(); }
